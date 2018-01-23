@@ -25,27 +25,57 @@
         para.textContent = eval(code);
       }
 
-      var person = {
-        name: {
-          first: 'Bob',
-          last: 'Smith'
-        },
-        age: 32,
-        gender: 'male',
-        interests: ['music', 'skiing'],
-        bio: function() {
-          alert(this.name.first + ' ' + this.name.last + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1]);
-        },
-        greeting: function() {
+      function Person(first, last, age, gender, interests) {
+        this.name = {
+          first: first,
+          last: last
+        };
+        this.age = age;
+        this.gender = gender;
+        this.interests = interests;
+        this.bio = function() {
+          var pronoun;
+          var listOfInterests;
+
+          // Choose pronoun based on gender
+          switch (gender) {
+            case 'male':
+              pronoun = 'He';
+              break;
+            case 'female':
+              pronoun = 'She';
+              break;
+            default:
+              pronoun = 'This person';
+              break;
+          }
+
+          // Create a string of interests
+          if (!this.interests) {
+            listOfInterests = "nothing";
+          } else if (this.interests.length <= 2) {
+            listOfInterests = this.interests.join(' and ');
+          // Use oxford comma e.g. "one, two, and three"
+          } else {
+            listOfInterests = this.interests.join(', ');
+            listOfInterests = listOfInterests.replace(/,([^,]*)$/,', and$1');
+          }
+
+          alert(
+            this.name.first + ' ' +
+            this.name.last + ' is ' +
+            this.age + ' years old. ' +
+            pronoun + ' likes ' +
+            listOfInterests + '.'
+          );
+        };
+        this.greeting = function() {
           alert('Hi! I\'m ' + this.name.first + '.');
-        }
-      };
+        };
+      }
 
-      person.age = 45;
-      person['name']['last'] = 'Cracthit';
+      var person1 = new Person('Bob', 'Smith', 32, 'nobinary', ['music', 'skiing', 'dancing']);
+      var person2 = Object.create(person1);
 
-      var myDataName = 'height';
-      var myDataValue = '1.75m';
-      person[myDataName] = myDataValue;
     </script>
 </html
